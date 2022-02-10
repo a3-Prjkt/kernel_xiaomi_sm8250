@@ -4489,7 +4489,7 @@ static void battery_authentic_work(struct work_struct *work)
 		retry_battery_authentic_result++;
 		if (retry_battery_authentic_result < BATTERY_AUTHENTIC_COUNT_MAX) {
 			pr_err("battery authentic work begin to restart.\n");
-			schedule_delayed_work(&chip->battery_authentic_work,
+			queue_delayed_work(system_power_efficient_wq, &chip->battery_authentic_work,
 				msecs_to_jiffies(battery_authentic_period_ms));
 		}
 
@@ -4498,11 +4498,11 @@ static void battery_authentic_work(struct work_struct *work)
 		}
 	} else {
 		pr_err("FG: authentic prop is %d\n", pval.intval);
-		schedule_delayed_work(&chip->ds_romid_work,
+		queue_delayed_work(system_power_efficient_wq, &chip->ds_romid_work,
 				msecs_to_jiffies(0));
-		schedule_delayed_work(&chip->ds_status_work,
+		queue_delayed_work(system_power_efficient_wq, &chip->ds_status_work,
 				msecs_to_jiffies(500));
-		schedule_delayed_work(&chip->ds_page0_work,
+		queue_delayed_work(system_power_efficient_wq, &chip->ds_page0_work,
 				msecs_to_jiffies(1000));
 	}
 }
@@ -4527,7 +4527,7 @@ static void ds_romid_work(struct work_struct *work)
 		retry_ds_romid++;
 		if (retry_ds_romid < DS_ROMID_COUNT_MAX) {
 			pr_err("battery authentic work begin to restart.\n");
-			schedule_delayed_work(&chip->ds_romid_work,
+			queue_delayed_work(system_power_efficient_wq, &chip->ds_romid_work,
 				msecs_to_jiffies(ds_romid_period_ms));
 		}
 
@@ -4563,7 +4563,7 @@ static void ds_status_work(struct work_struct *work)
 		retry_ds_status++;
 		if (retry_ds_status < DS_STATUS_COUNT_MAX) {
 			pr_err("battery authentic work begin to restart.\n");
-			schedule_delayed_work(&chip->ds_status_work,
+			queue_delayed_work(system_power_efficient_wq, &chip->ds_status_work,
 				msecs_to_jiffies(ds_status_period_ms));
 		}
 
@@ -4599,7 +4599,7 @@ static void ds_page0_work(struct work_struct *work)
 		retry_ds_page0++;
 		if (retry_ds_page0 < DS_PAGE0_COUNT_MAX) {
 			pr_err("battery authentic work begin to restart.\n");
-			schedule_delayed_work(&chip->ds_page0_work,
+			queue_delayed_work(system_power_efficient_wq, &chip->ds_page0_work,
 				msecs_to_jiffies(ds_page0_period_ms));
 		}
 
@@ -7535,7 +7535,7 @@ static int fg_gen4_probe(struct platform_device *pdev)
 	}
 #ifdef CONFIG_BATT_VERIFY_BY_DS28E16
 	if (chip->battery_authentic_result != true) {
-		schedule_delayed_work(&chip->battery_authentic_work,
+		queue_delayed_work(system_power_efficient_wq, &chip->battery_authentic_work,
 				msecs_to_jiffies(0));
 	}
 #endif
