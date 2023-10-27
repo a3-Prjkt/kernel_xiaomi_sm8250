@@ -1,6 +1,6 @@
-CLANG=~/void/prebuilts/clang/host/linux-x86/clang-sdclang/bin/
-GCC32=~/void/prebuilts/gcc/linux-x86/arm-linux-androideabi-4.9/bin/
-GCC64=~/void/prebuilts/gcc/linux-x86/aarch64-linux-android-4.9/bin/
+CLANG=/workspace/tc/sdclang/bin
+GCC32=/workspace/tc/gcc/gcc/bin
+GCC64=/workspace/tc/gcc/gcc64/bin
 
 PATH=$CLANG:$GCC64:$GCC32:$PATH
 
@@ -10,6 +10,20 @@ export ARCH=arm64
 export CLANG_TRIPLE
 export CROSS_COMPILE
 export CROSS_COMPILE_ARM32
+
+sudo apt update && sudo apt upgrade
+sudo apt install -y cpio \
+                    flex \
+                    python-is-python3 \
+                    libncurses5 \
+                    libncurses5-dev \
+                    ccache \
+                    gcc-aarch64-linux-gnu \
+                    bc
+
+export KBUILD_BUILD_USER=forest
+export KBUILD_BUILD_HOST=Disconnect0
+export KBUILD_BUILD_VERSION="1"
 
 CLANG_TRIPLE="aarch64-linux-gnu-"
 CROSS_COMPILE="aarch64-linux-gnu-"
@@ -31,4 +45,6 @@ make -j $(nproc) \
             OBJDUMP=llvm-objdump \
             STRIP=llvm-strip \
             LLVM=1 \
-            LLVM_IAS=1
+            LLVM_IAS=1 \
+            Image.gz-dtb \
+            dtbo.img
