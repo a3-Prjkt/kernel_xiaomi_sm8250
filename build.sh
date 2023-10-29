@@ -1,4 +1,4 @@
-CLANG=/workspace/tc/sdclang/bin
+CLANG=/workspace/tc/sdclang-17/compiler/bin
 GCC32=/workspace/tc/gcc/gcc/bin
 GCC64=/workspace/tc/gcc/gcc64/bin
 
