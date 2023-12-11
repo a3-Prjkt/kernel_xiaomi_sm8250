@@ -16,18 +16,31 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-if ! [ -d "$HOME/tc/proton-clang" ]; then
-echo "Proton clang not found! Cloning..."
-if ! git clone -q https://github.com/kdrag0n/proton-clang.git --depth=1 ~/tc/proton-clang; then
+if ! [ -d "/workspace/tc/a3-clang" ]; then
+echo "A3 clang not found! Cloning..."
+if ! git clone -q -b 17.x https://gitlab.com/a3-Prjkt/a3-clang --depth=1 /workspace/tc/a3-clang; then
 echo "Cloning failed! Aborting..."
 exit 1
 fi
 fi
 
-KBUILD_COMPILER_STRING=$($HOME/tc/proton-clang/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')
-KBUILD_LINKER_STRING=$($HOME/tc/proton-clang/bin/ld.lld --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//' | sed 's/(compatible with [^)]*)//')
+sudo apt update && sudo apt -y upgrade
+sudo apt install -y cpio \
+                    flex \
+                    python-is-python3 \
+                    libncurses5 \
+                    libncurses5-dev \
+                    ccache \
+                    gcc-aarch64-linux-gnu \
+                    bc
+
+KBUILD_COMPILER_STRING=$(/workspace/tc/a3-clang/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')
+KBUILD_LINKER_STRING=$(/workspace/tc/a3-clang/bin/ld.lld --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//' | sed 's/(compatible with [^)]*)//')
 export KBUILD_COMPILER_STRING
 export KBUILD_LINKER_STRING
+export KBUILD_BUILD_USER=forest
+export KBUILD_BUILD_HOST=Disconnect0
+export KBUILD_BUILD_VERSION="1"
 
 DEVICE=$1
 
@@ -78,8 +91,8 @@ dts_source=arch/arm64/boot/dts/vendor/qcom
 START=$(date +"%s")
 
 # Set compiler Path
-export PATH="$HOME/tc/proton-clang/bin:$PATH"
-export LD_LIBRARY_PATH=${HOME}/tc/proton-clang/lib64:$LD_LIBRARY_PATH
+export PATH="/workspace/tc/a3-clang/bin:$PATH"
+export LD_LIBRARY_PATH=/workspace/tc/a3-clang/lib64:$LD_LIBRARY_PATH
 
 echo "------ Starting Compilation ------"
 
