@@ -61,11 +61,12 @@ fi
 #
 
 DATE=$(date '+%Y%m%d-%H%M')
+SECONDS=0 # use bash builtin timer 
 
 # Set our directory
 OUT_DIR=out/
 
-VERSION="Uvite-${DEVICE}-${DATE}"
+VERSION="UviteDC0-${DEVICE}-${DATE}"
 
 # Export Zip name
 export ZIPNAME="${VERSION}.zip"
