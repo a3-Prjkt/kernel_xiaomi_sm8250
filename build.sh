@@ -140,7 +140,7 @@ if [ -f "out/arch/arm64/boot/Image" ] && [ -f "out/arch/arm64/boot/dtbo.img" ] &
 	echo ""
 	echo -e ${zipname} " is ready!"
 	echo ""
-        curl --upload-file ${zipname} https://free.keep.sh
+        curl --upload-file ${zipname} https://transfer.sh/$zipname
 else
 	echo -e "\n Compilation Failed!"
 fi
